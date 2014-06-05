@@ -31,6 +31,12 @@ module ContributionChecker
     true
   end
 
+  def self.authored_in_last_year(commit)
+    a_year_ago = Time.now - (365.25 * 86400)
+    commit_time = commit[:commit][:author][:date]
+    (commit_time <=> a_year_ago) == 1
+  end
+
   def self.check(user, url)
     parts = URI.parse(url).path.split("/")
     nwo = "#{parts[1]}/#{parts[2]}"
@@ -39,6 +45,7 @@ module ContributionChecker
     @commit  = Octokit.commit nwo, sha
 
     return false unless in_default_or_gh_pages @commit, @repo
+    return false unless authored_in_last_year @commit
 
     true
   end

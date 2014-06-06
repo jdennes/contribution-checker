@@ -20,7 +20,8 @@ module ContributionChecker
 
       # If the commit is not in the default branch, check the gh-pages branch
       begin
-        gh_pages_compare = Octokit.compare repo[:full_name], "gh-pages", commit[:sha]
+        gh_pages_compare = Octokit.compare repo[:full_name], "gh-pages",
+          commit[:sha]
       rescue Octokit::NotFound
         gh_pages_compare = nil
       end
@@ -37,17 +38,78 @@ module ContributionChecker
     (commit_time <=> a_year_ago) == 1
   end
 
-  def self.check(user, url)
+  def self.repository_is_fork?(repo)
+    repo[:fork]
+  end
+
+  def self.commit_email_linked_to_user?(commit)
+    true # Not possible to determine without authentication
+  end
+
+  def self.user_has_starred_repo?(user)
+    true
+  end
+
+  def self.user_has_push_access_to_repo?
+    true
+  end
+
+  def self.user_has_fork_of_repo?
+    true
+  end
+
+  def self.and_criteria_met?(commit_in_valid_branch, commit_in_last_year,
+    repo_not_a_fork, commit_email_linked_to_user)
+    commit_in_valid_branch && commit_in_last_year && repo_not_a_fork &&
+      commit_email_linked_to_user
+  end
+
+  def self.or_criteria_met?(user_has_starred_repo, user_has_push_access_to_repo,
+    user_has_fork_of_repo)
+    user_has_starred_repo || user_has_push_access_to_repo ||
+      user_has_fork_of_repo
+  end
+
+  def self.check(username, url)
     parts = URI.parse(url).path.split("/")
     nwo = "#{parts[1]}/#{parts[2]}"
     sha = parts[4]
-    repo    = Octokit.repository nwo
-    commit  = Octokit.commit nwo, sha
+    user = Octokit.user username
+    repo = Octokit.repository nwo
+    commit = Octokit.commit nwo, sha
 
-    return false unless commit_in_valid_branch? commit, repo
-    return false unless commit_authored_in_last_year? commit
+    commit_in_valid_branch = commit_in_valid_branch? commit, repo
+    commit_in_last_year = commit_authored_in_last_year? commit
+    repo_not_a_fork = !repository_is_fork?(repo)
+    commit_email_linked_to_user = commit_email_linked_to_user? commit
+    user_has_starred_repo = user_has_starred_repo? user
+    user_has_push_access_to_repo = user_has_push_access_to_repo?
+    user_has_fork_of_repo = user_has_fork_of_repo?
 
-    true
+    {
+      :contribution =>
+        and_criteria_met?(
+          commit_in_valid_branch,
+          commit_in_last_year,
+          repo_not_a_fork,
+          commit_email_linked_to_user) &&
+        or_criteria_met?(
+          user_has_starred_repo,
+          user_has_push_access_to_repo,
+          user_has_fork_of_repo),
+      :and_criteria => {
+        :commit_in_valid_branch       => commit_in_valid_branch,
+        :commit_in_last_year          => commit_in_last_year,
+        :repo_not_a_fork              => repo_not_a_fork,
+        :commit_email_linked_to_user  => commit_email_linked_to_user,
+      },
+      :or_criteria => {
+        :user_has_starred_repo        => user_has_starred_repo,
+        :user_has_push_access_to_repo => user_has_push_access_to_repo,
+        :user_has_fork_of_repo        => user_has_fork_of_repo,
+      }
+    }
+
   end
 
 end

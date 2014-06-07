@@ -108,7 +108,8 @@ module ContributionChecker
     end
 
     def commit_email_linked_to_user?
-      true # TODO — Implement this.
+      @emails = @client.emails
+      @emails.map { |e| e[:email] }.include? @commit[:commit][:author][:email]
     end
 
     def user_has_starred_repo?

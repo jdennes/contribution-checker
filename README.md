@@ -1,6 +1,6 @@
 # GitHub Contribution Checker
 
-People :heart: GitHub Contributions. This library lets you check whether one of your commits qualifies as a [contribution][contributions].
+People :heart: GitHub Contributions. However, it's not always simple to tell why a commit isn't [counted as a contribution][contributions]. This library lets you check whether a specific commit qualifies as a contribution.
 
 ## Usage
 

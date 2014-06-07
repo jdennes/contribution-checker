@@ -62,7 +62,7 @@ module ContributionChecker
     end
 
     def user_has_starred_repo?
-      true
+      @client.starred?(@nwo)
     end
 
     def user_has_push_access_to_repo?

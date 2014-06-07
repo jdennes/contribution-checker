@@ -65,8 +65,13 @@ module ContributionChecker
       @client.starred?(@nwo)
     end
 
-    def user_has_push_access_to_repo?
-      true
+    def user_is_repo_org_member?
+      false if @repo[:owner] == "User"
+      @client.organization_member? @repo[:owner][:login], @user[:login]
+    end
+
+    def user_can_push_to_repo_or_is_org_member?
+      @repo[:permissions][:push] || user_is_repo_org_member?
     end
 
     def user_has_fork_of_repo?

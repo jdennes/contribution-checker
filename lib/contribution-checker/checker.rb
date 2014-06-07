@@ -84,9 +84,9 @@ module ContributionChecker
         commit_email_linked_to_user
     end
 
-    def or_criteria_met?(user_has_starred_repo, user_has_push_access_to_repo,
-      user_has_fork_of_repo)
-      user_has_starred_repo || user_has_push_access_to_repo ||
+    def or_criteria_met?(user_has_starred_repo,
+      user_can_push_to_repo_or_is_org_member, user_has_fork_of_repo)
+      user_has_starred_repo || user_can_push_to_repo_or_is_org_member ||
         user_has_fork_of_repo
     end
 
@@ -103,7 +103,7 @@ module ContributionChecker
       repo_not_a_fork = !repository_is_fork?
       commit_email_linked_to_user = commit_email_linked_to_user?
       user_has_starred_repo = user_has_starred_repo?
-      user_has_push_access_to_repo = user_has_push_access_to_repo?
+      user_can_push_to_repo_or_is_org_member = user_can_push_to_repo_or_is_org_member?
       user_has_fork_of_repo = user_has_fork_of_repo?
 
       {
@@ -115,22 +115,20 @@ module ContributionChecker
             commit_email_linked_to_user) &&
           or_criteria_met?(
             user_has_starred_repo,
-            user_has_push_access_to_repo,
+            user_can_push_to_repo_or_is_org_member,
             user_has_fork_of_repo),
         :and_criteria => {
-          :commit_in_valid_branch       => commit_in_valid_branch,
-          :commit_in_last_year          => commit_in_last_year,
-          :repo_not_a_fork              => repo_not_a_fork,
-          :commit_email_linked_to_user  => commit_email_linked_to_user,
+          :commit_in_valid_branch      => commit_in_valid_branch,
+          :commit_in_last_year         => commit_in_last_year,
+          :repo_not_a_fork             => repo_not_a_fork,
+          :commit_email_linked_to_user => commit_email_linked_to_user,
         },
         :or_criteria => {
-          :user_has_starred_repo        => user_has_starred_repo,
-          :user_has_push_access_to_repo => user_has_push_access_to_repo,
-          :user_has_fork_of_repo        => user_has_fork_of_repo,
+          :user_has_starred_repo                  => user_has_starred_repo,
+          :user_can_push_to_repo_or_is_org_member => user_can_push_to_repo_or_is_org_member,
+          :user_has_fork_of_repo                  => user_has_fork_of_repo,
         }
       }
-
     end
-
   end
 end

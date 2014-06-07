@@ -1,8 +1,6 @@
 # ContributionChecker
 
-People :heart: GitHub Contributions. This gem allows you to check whether one of your commits qualifies as a [contribution][contributions].
-
-_This project is currently a work in progress, and is not complete._
+People :heart: GitHub Contributions. This library lets you check whether one of your commits qualifies as a [contribution][contributions].
 
 ## Usage
 

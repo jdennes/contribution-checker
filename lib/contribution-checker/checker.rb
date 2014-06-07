@@ -3,7 +3,7 @@ require "octokit"
 module ContributionChecker
   class Checker
 
-    # Initialise a new Checker instance with an API access token and commit URL
+    # Initialise a new Checker instance with an API access token and commit URL.
     #
     # @param options [Hash] Options which should take the form:
     # {
@@ -16,6 +16,56 @@ module ContributionChecker
         instance_variable_set :"@#{key}", val
       end
       @client = Octokit::Client.new(:access_token => @access_token)
+    end
+
+    # Check whether the commit is counted as a contribution for the
+    # authenticated user.
+    #
+    # @return Hash of the following form:
+    # {
+    #   :counted_as_contribution => true,
+    #   :and_criteria => {
+    #     :commit_in_valid_branch      => true,
+    #     :commit_in_last_year         => true,
+    #     :repo_not_a_fork             => true,
+    #     :commit_email_linked_to_user => true,
+    #   },
+    #   :or_criteria => {
+    #     :user_has_starred_repo                  => false,
+    #     :user_can_push_to_repo_or_is_org_member => false,
+    #     :user_has_fork_of_repo                  => true,
+    #   }
+    # }
+    def check
+      parts = URI.parse(@commit_url).path.split("/")
+      @nwo = "#{parts[1]}/#{parts[2]}"
+      @sha = parts[4]
+      @user = @client.user
+      @repo = @client.repository @nwo
+      @commit = @client.commit @nwo, @sha
+
+      @commit_in_valid_branch = commit_in_valid_branch?
+      @commit_in_last_year = commit_in_last_year?
+      @repo_not_a_fork = !repository_is_fork?
+      @commit_email_linked_to_user = commit_email_linked_to_user?
+      @user_has_starred_repo = user_has_starred_repo?
+      @user_can_push_to_repo_or_is_org_member = user_can_push_to_repo_or_is_org_member?
+      @user_has_fork_of_repo = user_has_fork_of_repo?
+
+      {
+        :contribution => and_criteria_met? && or_criteria_met?,
+        :and_criteria => {
+          :commit_in_valid_branch      => @commit_in_valid_branch,
+          :commit_in_last_year         => @commit_in_last_year,
+          :repo_not_a_fork             => @repo_not_a_fork,
+          :commit_email_linked_to_user => @commit_email_linked_to_user,
+        },
+        :or_criteria => {
+          :user_has_starred_repo                  => @user_has_starred_repo,
+          :user_can_push_to_repo_or_is_org_member => @user_can_push_to_repo_or_is_org_member,
+          :user_has_fork_of_repo                  => @user_has_fork_of_repo,
+        }
+      }
     end
 
     def commit_in_valid_branch?
@@ -31,7 +81,7 @@ module ContributionChecker
       # The compare status should be "identical" or "behind" if the commit is in
       # the default branch
       unless default_compare &&
-        %w(identical behind).include? default_compare[:status]
+        %w(identical behind).include?(default_compare[:status])
 
         # If the commit is not in the default branch, check the gh-pages branch
         begin
@@ -47,7 +97,7 @@ module ContributionChecker
       true
     end
 
-    def commit_authored_in_last_year?
+    def commit_in_last_year?
       a_year_ago = Time.now - (365.25 * 86400)
       commit_time = @commit[:commit][:author][:date]
       (commit_time <=> a_year_ago) == 1
@@ -58,7 +108,7 @@ module ContributionChecker
     end
 
     def commit_email_linked_to_user?
-      true
+      true # TODO — Implement this.
     end
 
     def user_has_starred_repo?
@@ -75,60 +125,17 @@ module ContributionChecker
     end
 
     def user_has_fork_of_repo?
-      true
+      true # TODO — Implement this.
     end
 
-    def and_criteria_met?(commit_in_valid_branch, commit_in_last_year,
-      repo_not_a_fork, commit_email_linked_to_user)
-      commit_in_valid_branch && commit_in_last_year && repo_not_a_fork &&
-        commit_email_linked_to_user
+    def and_criteria_met?
+      @commit_in_valid_branch && @commit_in_last_year &&
+      @repo_not_a_fork && @commit_email_linked_to_user
     end
 
-    def or_criteria_met?(user_has_starred_repo,
-      user_can_push_to_repo_or_is_org_member, user_has_fork_of_repo)
-      user_has_starred_repo || user_can_push_to_repo_or_is_org_member ||
-        user_has_fork_of_repo
-    end
-
-    def check
-      parts = URI.parse(@commit_url).path.split("/")
-      @nwo = "#{parts[1]}/#{parts[2]}"
-      @sha = parts[4]
-      @user = @client.user
-      @repo = @client.repository @nwo
-      @commit = @client.commit @nwo, @sha
-
-      commit_in_valid_branch = commit_in_valid_branch?
-      commit_in_last_year = commit_authored_in_last_year?
-      repo_not_a_fork = !repository_is_fork?
-      commit_email_linked_to_user = commit_email_linked_to_user?
-      user_has_starred_repo = user_has_starred_repo?
-      user_can_push_to_repo_or_is_org_member = user_can_push_to_repo_or_is_org_member?
-      user_has_fork_of_repo = user_has_fork_of_repo?
-
-      {
-        :contribution =>
-          and_criteria_met?(
-            commit_in_valid_branch,
-            commit_in_last_year,
-            repo_not_a_fork,
-            commit_email_linked_to_user) &&
-          or_criteria_met?(
-            user_has_starred_repo,
-            user_can_push_to_repo_or_is_org_member,
-            user_has_fork_of_repo),
-        :and_criteria => {
-          :commit_in_valid_branch      => commit_in_valid_branch,
-          :commit_in_last_year         => commit_in_last_year,
-          :repo_not_a_fork             => repo_not_a_fork,
-          :commit_email_linked_to_user => commit_email_linked_to_user,
-        },
-        :or_criteria => {
-          :user_has_starred_repo                  => user_has_starred_repo,
-          :user_can_push_to_repo_or_is_org_member => user_can_push_to_repo_or_is_org_member,
-          :user_has_fork_of_repo                  => user_has_fork_of_repo,
-        }
-      }
+    def or_criteria_met?
+      @user_has_starred_repo || @user_can_push_to_repo_or_is_org_member ||
+      @user_has_fork_of_repo
     end
   end
 end

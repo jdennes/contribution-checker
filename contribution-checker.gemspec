@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["James Dennes"]
   spec.email         = ["jdennes@gmail.com"]
   spec.summary       = %q{Check whether a commit is counted as a contribution.}
-  spec.description   = %q{Check whether a commit is counted as a contribution.}
+  spec.description   = %q{Check whether a GitHub commit is counted as a \
+    contribution for a specific GitHub user.}
   spec.homepage      = ""
   spec.license       = "MIT"
 

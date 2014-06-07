@@ -1,4 +1,4 @@
-# ContributionChecker
+# GitHub Contribution Checker
 
 People :heart: GitHub Contributions. This library lets you check whether one of your commits qualifies as a [contribution][contributions].
 

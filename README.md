@@ -1,20 +1,25 @@
 # ContributionChecker
 
-Check whether a commit in a GitHub repository is counted as a [contribution][contributions] for a GitHub user.
+People :heart: GitHub Contributions. This gem allows you to check whether one of your commits qualifies as a [contribution][contributions].
 
 _This project is currently a work in progress, and is not complete._
 
 ## Usage
 
 ```ruby
-> ContributionChecker.check "username", "https://github.com/user/repo/commit/sha"
-=> {
+checker = ContributionChecker::Checker.new \
+  :access_token => "<Your 40 char GitHub API token>",
+  :commit_url   => "https://github.com/user/repo/commit/sha"
+)
+
+checker.check
+# => {
   :counted_as_contribution => true,
   :and_criteria => {
     :commit_in_valid_branch       => true,
     :commit_in_last_year          => true,
     :repo_not_a_fork              => true,
-    :commit_email_linked_to_user  => true, # Not possible to determine without authentication
+    :commit_email_linked_to_user  => true,
   },
   :or_criteria => {
     :user_has_starred_repo        => false,

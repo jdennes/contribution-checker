@@ -30,7 +30,7 @@ module ContributionChecker
 
       # The compare status should be "identical" or "behind" if the commit is in
       # the default branch
-      unless default_compare and
+      unless default_compare &&
         %w(identical behind).include? default_compare[:status]
 
         # If the commit is not in the default branch, check the gh-pages branch

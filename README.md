@@ -5,10 +5,11 @@ People :heart: GitHub Contributions. However, it's not always simple to tell why
 ## Usage
 
 ```ruby
+require "contribution-checker"
+
 checker = ContributionChecker::Checker.new \
   :access_token => "<Your 40 char GitHub API token>",
   :commit_url   => "https://github.com/user/repo/commit/sha"
-)
 
 checker.check
 => {

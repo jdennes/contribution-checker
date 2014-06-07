@@ -72,7 +72,7 @@ module ContributionChecker
         },
         :or_criteria => {
           :user_has_starred_repo   => @user_has_starred_repo,
-          :user_can_push_to_repo   => @user_can_push_to_repo_or_is_org_member,
+          :user_can_push_to_repo   => @user_can_push_to_repo,
           :user_is_repo_org_member => @user_is_repo_org_member,
           :user_has_fork_of_repo   => @user_has_fork_of_repo,
         }
@@ -168,7 +168,17 @@ module ContributionChecker
     #
     # @return [Boolean]
     def user_has_fork_of_repo?
-      true # TODO — Implement this.
+      # The API doesn't provide a simple means of checking whether a user has
+      # forked a repository. Here we need to get the user's forks and check the
+      # `parent` field of each fork to see whether it matches @repo.
+      @client.auto_paginate = true
+      @user_repos = @client.repos
+      @user_forks = @user_repos.select { |r| r[:fork] }
+      @user_forks.each do |f|
+        r = @client.repository f[:full_name]
+        return true if r[:parent][:full_name] == @repo[:full_name]
+      end
+      false
     end
 
     # Checks whether the "and" criteria for counting a commit as a contribution

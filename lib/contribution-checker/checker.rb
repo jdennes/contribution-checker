@@ -36,12 +36,13 @@ module ContributionChecker
     #     :commit_in_valid_branch      => true,
     #     :commit_in_last_year         => true,
     #     :repo_not_a_fork             => true,
-    #     :commit_email_linked_to_user => true,
+    #     :commit_email_linked_to_user => true
     #   },
     #   :or_criteria => {
-    #     :user_has_starred_repo                  => false,
-    #     :user_can_push_to_repo_or_is_org_member => false,
-    #     :user_has_fork_of_repo                  => true,
+    #     :user_has_starred_repo   => false,
+    #     :user_can_push_to_repo   => false,
+    #     :user_is_repo_org_member => true,
+    #     :user_has_fork_of_repo   => false
     #   }
     # }
     def check
@@ -57,7 +58,8 @@ module ContributionChecker
       @repo_not_a_fork = !repository_is_fork?
       @commit_email_linked_to_user = commit_email_linked_to_user?
       @user_has_starred_repo = user_has_starred_repo?
-      @user_can_push_to_repo_or_is_org_member = user_can_push_to_repo_or_is_org_member?
+      @user_can_push_to_repo = user_can_push_to_repo?
+      @user_is_repo_org_member = user_is_repo_org_member?
       @user_has_fork_of_repo = user_has_fork_of_repo?
 
       {
@@ -69,9 +71,10 @@ module ContributionChecker
           :commit_email_linked_to_user => @commit_email_linked_to_user,
         },
         :or_criteria => {
-          :user_has_starred_repo                  => @user_has_starred_repo,
-          :user_can_push_to_repo_or_is_org_member => @user_can_push_to_repo_or_is_org_member,
-          :user_has_fork_of_repo                  => @user_has_fork_of_repo,
+          :user_has_starred_repo   => @user_has_starred_repo,
+          :user_can_push_to_repo   => @user_can_push_to_repo_or_is_org_member,
+          :user_is_repo_org_member => @user_is_repo_org_member,
+          :user_has_fork_of_repo   => @user_has_fork_of_repo,
         }
       }
     end
@@ -148,18 +151,16 @@ module ContributionChecker
     #
     # @return [Boolean]
     def user_is_repo_org_member?
-      false if @repo[:owner] == "User"
+      false if @repo[:owner] != "Organization"
       @client.organization_member? @repo[:owner][:login], @user[:login]
     end
 
-    # Checks whether the authenticated user has push access to the repository,
-    # or whether the authenticated user is a member of the organization that
-    # owns the repository (if the repository is owned by an organization
-    # account).
+    # Checks whether the authenticated user has push access to the repository in
+    # which the commit exists.
     #
     # @return [Boolean]
-    def user_can_push_to_repo_or_is_org_member?
-      @repo[:permissions][:push] || user_is_repo_org_member?
+    def user_can_push_to_repo?
+      @repo[:permissions][:push]
     end
 
     # Checks whether the authenticated user has forked the repository in which
@@ -187,7 +188,8 @@ module ContributionChecker
     # @return [Boolean]
     def or_criteria_met?
       @user_has_starred_repo ||
-      @user_can_push_to_repo_or_is_org_member ||
+      @user_can_push_to_repo ||
+      @user_is_repo_org_member ||
       @user_has_fork_of_repo
     end
   end

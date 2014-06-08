@@ -46,12 +46,14 @@ module ContributionChecker
     #   }
     # }
     def check
-      parts = URI.parse(@commit_url).path.split("/")
-      @nwo = "#{parts[1]}/#{parts[2]}"
-      @sha = parts[4]
-      @user = @client.user
+      @nwo, @sha = parse_commit_url @commit_url
+      begin
+        @commit = @client.commit @nwo, @sha
+      rescue Octokit::NotFound
+        raise ContributionChecker::InvalidCommitUrlError
+      end
       @repo = @client.repository @nwo
-      @commit = @client.commit @nwo, @sha
+      @user = @client.user
 
       @commit_in_valid_branch = commit_in_valid_branch?
       @commit_in_last_year = commit_in_last_year?
@@ -77,6 +79,20 @@ module ContributionChecker
           :user_has_fork_of_repo   => @user_has_fork_of_repo,
         }
       }
+    end
+
+    # Parses the commit URL provided.
+    #
+    # @return [Array] URL parts: nwo, sha
+    def parse_commit_url(url)
+      begin
+        parts = URI.parse(@commit_url).path.split("/")
+        nwo = "#{parts[1]}/#{parts[2]}"
+        sha = parts[4]
+        return nwo, sha
+      rescue
+        raise ContributionChecker::InvalidCommitUrlError
+      end
     end
 
     # Checks whether the commit is in a valid branch. A valid branch is defined

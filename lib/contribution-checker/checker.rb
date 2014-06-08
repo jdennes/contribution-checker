@@ -81,6 +81,8 @@ module ContributionChecker
       }
     end
 
+  private
+
     # Parses the commit URL provided.
     #
     # @return [Array] URL parts: nwo, sha

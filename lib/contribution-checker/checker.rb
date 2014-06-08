@@ -185,8 +185,20 @@ module ContributionChecker
     # @return [Boolean]
     def user_has_fork_of_repo?
       # The API doesn't provide a simple means of checking whether a user has
-      # forked a repository. Here we need to get the user's forks and check the
-      # `parent` field of each fork to see whether it matches @repo.
+      # forked a repository.
+
+      # First try to directly find a repository with the same name as the
+      # repository in which the commit exists.
+      potential_fork_nwo = "#{@user[:login]}/#{@repo[:name]}"
+      begin
+        potential_fork = @client.repository potential_fork_nwo
+        return true if potential_fork[:parent][:full_name] == @repo[:full_name]
+      rescue Octokit::NotFound
+        # Keep going...
+      end
+
+      # Otherwise, get the user's forks and check the `parent` field of each
+      # fork to see whether it matches @repo.
       @client.auto_paginate = true
       @user_repos = @client.repos
       @user_forks = @user_repos.select { |r| r[:fork] }

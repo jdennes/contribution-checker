@@ -1,12 +1,12 @@
-require 'helper'
+require "helper"
 
 describe ContributionChecker::Checker do
 
-  describe '#check' do
+  describe "#check" do
 
     context "when an invalid URL is provided as a commit URL" do
       let(:checker) { checker = ContributionChecker::Checker.new \
-        :access_token => "<Your 40 char GitHub API token>",
+        :access_token => "your token",
         :commit_url   => "not a url"
       }
 

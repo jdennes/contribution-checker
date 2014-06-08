@@ -187,7 +187,10 @@ module ContributionChecker
       # The API doesn't provide a simple means of checking whether a user has
       # forked a repository.
 
-      # First try to directly find a repository with the same name as the
+      # First, if there are no forks for the repository, return false.
+      return false if @repo[:forks_count] == 0
+
+      # Then try to directly find a repository with the same name as the
       # repository in which the commit exists.
       potential_fork_nwo = "#{@user[:login]}/#{@repo[:name]}"
       begin

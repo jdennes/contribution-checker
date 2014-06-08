@@ -31,6 +31,22 @@ describe ContributionChecker::Checker do
       end
     end
 
+    context "when an invalid access token is provided" do
+      let(:checker) { checker = ContributionChecker::Checker.new \
+        :access_token => "invalid access token",
+        :commit_url   => "https://github.com/git/git-scm.com/commit/f6b5cb6"
+      }
+
+      before do
+        stub_request(:get, "https://api.github.com/repos/git/git-scm.com/commits/f6b5cb6").to_return(
+         :status  => 401, :body => "")
+      end
+
+      it "raises an error" do
+        expect { checker.check }.to raise_error ContributionChecker::InvalidAccessTokenError
+      end
+    end
+
   end
 
 end

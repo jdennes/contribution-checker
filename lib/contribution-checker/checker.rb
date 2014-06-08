@@ -51,6 +51,8 @@ module ContributionChecker
         @commit = @client.commit @nwo, @sha
       rescue Octokit::NotFound
         raise ContributionChecker::InvalidCommitUrlError
+      rescue Octokit::Unauthorized
+        raise ContributionChecker::InvalidAccessTokenError
       end
       @repo = @client.repository @nwo
       @user = @client.user

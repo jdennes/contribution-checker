@@ -7,4 +7,11 @@ module ContributionChecker
     end
   end
 
+  # Error class to help us rescue from invalid access token input.
+  class InvalidAccessTokenError < StandardError
+    def initialize
+      super "Invalid access token provided"
+    end
+  end
+
 end

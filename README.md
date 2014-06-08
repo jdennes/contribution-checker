@@ -13,7 +13,7 @@ checker = ContributionChecker::Checker.new \
 
 checker.check
 => {
-  :counted_as_contribution => true,
+  :contribution => true,
   :and_criteria => {
     :commit_in_valid_branch      => true,
     :commit_in_last_year         => true,

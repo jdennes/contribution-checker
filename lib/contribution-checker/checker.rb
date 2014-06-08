@@ -190,6 +190,14 @@ module ContributionChecker
       # First, if there are no forks for the repository, return false.
       return false if @repo[:forks_count] == 0
 
+      # Then check whether it's worth getting the list of forks
+      if @repo[:forks_count] <= 100
+        repo_forks = @client.forks @repo[:full_name], :per_page => 100
+        repo_forks.each do |f|
+          return true if f[:owner][:login] == @user[:login]
+        end
+      end
+
       # Then try to directly find a repository with the same name as the
       # repository in which the commit exists.
       potential_fork_nwo = "#{@user[:login]}/#{@repo[:name]}"

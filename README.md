@@ -29,4 +29,11 @@ checker.check
 }
 ```
 
+You might also like to try out the [Contribution Checker][app] app built on top of this library:
+
+![checker](https://cloud.githubusercontent.com/assets/65057/3230693/8b10fb9c-f0a5-11e3-8223-45fd47c34aa6.png)
+
+Created by [@izuzak][izuzak] and [@jdennes][jdennes] at the [Hamburg Hackathon][hamburg-hackathon], June 2014.
+
 [contributions]: https://help.github.com/articles/why-are-my-contributions-not-showing-up-on-my-profile
+[app]: http://contribution-checker.herokuapp.com/

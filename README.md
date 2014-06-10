@@ -37,3 +37,6 @@ Created by [@izuzak][izuzak] and [@jdennes][jdennes] at the [Hamburg Hackathon][
 
 [contributions]: https://help.github.com/articles/why-are-my-contributions-not-showing-up-on-my-profile
 [app]: http://contribution-checker.herokuapp.com/
+[izuzak]: https://github.com/izuzak
+[jdennes]: https://github.com/jdennes
+[hamburg-hackathon]: http://hamburg-hackathon.de/hackathon/

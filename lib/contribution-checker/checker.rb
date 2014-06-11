@@ -207,7 +207,9 @@ module ContributionChecker
       potential_fork_nwo = "#{@user[:login]}/#{@repo[:name]}"
       begin
         potential_fork = @client.repository potential_fork_nwo
-        return true if potential_fork[:parent][:full_name] == @repo[:full_name]
+        if potential_fork[:fork]
+          return true if potential_fork[:parent][:full_name] == @repo[:full_name]
+        end
       rescue Octokit::NotFound
         # Keep going...
       end

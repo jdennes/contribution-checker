@@ -11,7 +11,7 @@ require "rspec"
 require "webmock/rspec"
 require "contribution-checker"
 
-WebMock.disable_net_connect!
+WebMock.disable_net_connect! :allow => "coveralls.io"
 
 def github_url(url)
   url =~ /^http/ ? url : "https://api.github.com#{url}"

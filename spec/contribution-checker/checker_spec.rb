@@ -292,6 +292,47 @@ describe ContributionChecker::Checker do
       end
     end
 
+    context "when a commit is in the default branch and there are too many forks of the repository to check them all" do
+      let(:checker) { checker = ContributionChecker::Checker.new \
+        :access_token => "token",
+        :commit_url   => "https://github.com/someone/contribution-checker/commit/731e83d4abf1bd67ac6ab68d18387693482e47cf"
+      }
+
+      before do
+        stub_get("/repos/someone/contribution-checker/commits/731e83d4abf1bd67ac6ab68d18387693482e47cf").
+          to_return(json_response("commit.json"))
+        stub_get("/repos/someone/contribution-checker").
+          to_return(json_response("repo_with_too_many_forks.json"))
+        stub_get("/user").
+          to_return(json_response("user.json"))
+        stub_get("/repos/jdennes/contribution-checker/compare/master...731e83d4abf1bd67ac6ab68d18387693482e47cf").
+          to_return(json_response("default_compare.json"))
+        stub_get("/user/emails").
+          to_return(json_response("emails.json"))
+        stub_get("/user/starred/someone/contribution-checker").
+          to_return(:status => 404)
+        stub_get("/repos/jdennes/contribution-checker").
+          to_return(json_response("potential_fork.json"))
+      end
+
+      it "returns the check result" do
+        result = checker.check
+        expect(result).to be_a(Hash)
+
+        expect(result[:contribution]).to eq(true)
+
+        expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
+        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
+        expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
+        expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+
+        expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
+        expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
+        expect(result[:or_criteria][:user_is_repo_org_member]).to eq(false)
+        expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(true)
+      end
+    end
+
   end
 
 end

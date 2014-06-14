@@ -1,7 +1,7 @@
 {
   "id": 20517235,
   "name": "contribution-checker",
-  "full_name": "someone/contribution-checker",
+  "full_name": "jdennes/myfork",
   "owner": {
     "login": "jdennes",
     "id": 65057,
@@ -24,7 +24,10 @@
   "private": false,
   "html_url": "https://github.com/jdennes/contribution-checker",
   "description": "Check whether one of your GitHub commits qualifies as a contribution.",
-  "fork": false,
+  "fork": true,
+  "parent": {
+    "full_name": "someone/contribution-checker"
+  },
   "url": "https://api.github.com/repos/jdennes/contribution-checker",
   "forks_url": "https://api.github.com/repos/jdennes/contribution-checker/forks",
   "keys_url": "https://api.github.com/repos/jdennes/contribution-checker/keys{/key_id}",
@@ -76,7 +79,7 @@
   "has_issues": true,
   "has_downloads": true,
   "has_wiki": false,
-  "forks_count": 10000,
+  "forks_count": 0,
   "mirror_url": null,
   "open_issues_count": 0,
   "forks": 0,

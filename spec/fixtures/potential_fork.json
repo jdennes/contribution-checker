@@ -26,7 +26,7 @@
   "description": "Check whether one of your GitHub commits qualifies as a contribution.",
   "fork": true,
   "parent": {
-    "full_name": "jdennes/contribution-checker"
+    "full_name": "someone/contribution-checker"
   },
   "url": "https://api.github.com/repos/jdennes/contribution-checker",
   "forks_url": "https://api.github.com/repos/jdennes/contribution-checker/forks",

@@ -171,7 +171,7 @@ module ContributionChecker
     #
     # @return [Boolean]
     def user_is_repo_org_member?
-      return false if @repo[:owner] != "Organization"
+      return false if @repo[:owner][:type] != "Organization"
       @client.organization_member? @repo[:owner][:login], @user[:login]
     end
 

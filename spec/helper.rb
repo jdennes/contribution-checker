@@ -1,8 +1,17 @@
+require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
+SimpleCov.start
+
 require "rspec"
 require "webmock/rspec"
 require "contribution-checker"
 
-WebMock.disable_net_connect!
+WebMock.disable_net_connect! :allow => "coveralls.io"
 
 def github_url(url)
   url =~ /^http/ ? url : "https://api.github.com#{url}"

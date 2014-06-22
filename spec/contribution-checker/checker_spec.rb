@@ -78,6 +78,7 @@ describe ContributionChecker::Checker do
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
@@ -119,6 +120,7 @@ describe ContributionChecker::Checker do
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
@@ -160,6 +162,7 @@ describe ContributionChecker::Checker do
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
@@ -201,6 +204,7 @@ describe ContributionChecker::Checker do
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
@@ -243,6 +247,7 @@ describe ContributionChecker::Checker do
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
@@ -284,6 +289,7 @@ describe ContributionChecker::Checker do
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
@@ -325,6 +331,7 @@ describe ContributionChecker::Checker do
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
@@ -370,6 +377,7 @@ describe ContributionChecker::Checker do
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
@@ -415,6 +423,7 @@ describe ContributionChecker::Checker do
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)

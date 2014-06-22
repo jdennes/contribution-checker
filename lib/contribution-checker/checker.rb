@@ -36,7 +36,8 @@ module ContributionChecker
     #     :commit_in_valid_branch      => true,
     #     :commit_in_last_year         => true,
     #     :repo_not_a_fork             => true,
-    #     :commit_email_linked_to_user => true
+    #     :commit_email_linked_to_user => true,
+    #     :commit_email                => "example@example.com",
     #   },
     #   :or_criteria => {
     #     :user_has_starred_repo   => false,
@@ -73,6 +74,7 @@ module ContributionChecker
           :commit_in_last_year         => @commit_in_last_year,
           :repo_not_a_fork             => @repo_not_a_fork,
           :commit_email_linked_to_user => @commit_email_linked_to_user,
+          :commit_email                => @commit[:commit][:author][:email],
         },
         :or_criteria => {
           :user_has_starred_repo   => @user_has_starred_repo,

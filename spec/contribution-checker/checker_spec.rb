@@ -22,7 +22,7 @@ describe ContributionChecker::Checker do
       }
 
       before do
-        stub_request(:get, "https://api.github.com/repos/commits/").to_return(
+        stub_request(:get, "https://api.github.com/commits/").to_return(
          :status  => 404, :body => "")
       end
 

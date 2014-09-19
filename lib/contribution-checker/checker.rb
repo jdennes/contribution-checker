@@ -38,6 +38,7 @@ module ContributionChecker
     #     :repo_not_a_fork             => true,
     #     :commit_email_linked_to_user => true,
     #     :commit_email                => "example@example.com",
+    #     :default_branch              => "master"
     #   },
     #   :or_criteria => {
     #     :user_has_starred_repo   => false,
@@ -75,6 +76,7 @@ module ContributionChecker
           :repo_not_a_fork             => @repo_not_a_fork,
           :commit_email_linked_to_user => @commit_email_linked_to_user,
           :commit_email                => @commit[:commit][:author][:email],
+          :default_branch              => @repo[:default_branch],
         },
         :or_criteria => {
           :user_has_starred_repo   => @user_has_starred_repo,

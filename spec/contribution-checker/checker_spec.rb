@@ -64,8 +64,8 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred/jdennes/contribution-checker").
-          to_return(:status => 404)
+        stub_get("/user/starred?per_page=100").
+          to_return(json_response("starred.json"))
       end
 
       it "returns the check result" do
@@ -107,8 +107,8 @@ describe ContributionChecker::Checker do
           to_return(json_response("gh-pages_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred/jdennes/contribution-checker").
-          to_return(:status => 404)
+        stub_get("/user/starred?per_page=100").
+          to_return(json_response("starred.json"))
       end
 
       it "returns the check result" do
@@ -150,8 +150,8 @@ describe ContributionChecker::Checker do
           to_return(json_response("gh-pages_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred/jdennes/contribution-checker").
-          to_return(:status => 404)
+        stub_get("/user/starred?per_page=100").
+          to_return(json_response("starred.json"))
       end
 
       it "returns the check result" do
@@ -193,8 +193,8 @@ describe ContributionChecker::Checker do
           to_return(:status => 404)
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred/jdennes/contribution-checker").
-          to_return(:status => 404)
+        stub_get("/user/starred?per_page=100").
+          to_return(json_response("starred.json"))
       end
 
       it "returns the check result" do
@@ -235,8 +235,8 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred/jdennes/contribution-checker").
-          to_return(:status => 404)
+        stub_get("/user/starred?per_page=100").
+          to_return(json_response("starred.json"))
         stub_get("/orgs/github/members/jdennes").
           to_return(:status => 204)
       end
@@ -278,8 +278,8 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred/jdennes/contribution-checker").
-          to_return(:status => 404)
+        stub_get("/user/starred?per_page=100").
+          to_return(json_response("starred.json"))
         stub_get("/repos/jdennes/contribution-checker/forks?per_page=100").
           to_return(json_response("repo_forks.json"))
       end
@@ -321,8 +321,8 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred/someone/contribution-checker").
-          to_return(:status => 404)
+        stub_get("/user/starred?per_page=100").
+          to_return(json_response("starred.json"))
         stub_get("/repos/jdennes/contribution-checker").
           to_return(json_response("potential_fork.json"))
       end
@@ -364,8 +364,8 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred/someone/contribution-checker").
-          to_return(:status => 404)
+        stub_get("/user/starred?per_page=100").
+          to_return(json_response("starred.json"))
         stub_get("/repos/jdennes/contribution-checker").
           to_return(:status => 404)
         stub_get("/user/repos?per_page=100").
@@ -411,8 +411,8 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred/someone/contribution-checker").
-          to_return(:status => 404)
+        stub_get("/user/starred?per_page=100").
+          to_return(json_response("starred.json"))
         stub_get("/repos/jdennes/contribution-checker").
           to_return(:status => 404)
         stub_get("/user/repos?per_page=100").

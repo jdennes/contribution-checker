@@ -166,7 +166,9 @@ module ContributionChecker
     #
     # @return [Boolean]
     def user_has_starred_repo?
-      @client.starred?(@nwo)
+      @client.auto_paginate = true
+      starred = @client.starred @user.login
+      starred.map { |s| s.full_name }.include? @nwo
     end
 
     # Checks whether the authenticated user is a member of the organization

@@ -31,6 +31,22 @@ describe ContributionChecker::Checker do
       end
     end
 
+    context "when a repository URL is provided which isn't a commit URL" do
+      let(:checker) { checker = ContributionChecker::Checker.new \
+        :access_token => "your token",
+        :commit_url   => "https://github.com/github/linguist/blahblah"
+      }
+
+      before do
+        stub_request(:get, "https://api.github.com/repos/github/linguist/commits/").to_return(
+        :status  => 404, :body => "")
+      end
+
+      it "raises an error" do
+        expect { checker.check }.to raise_error ContributionChecker::InvalidCommitUrlError
+      end
+    end
+
     context "when an invalid access token is provided" do
       let(:checker) { checker = ContributionChecker::Checker.new \
         :access_token => "invalid access token",

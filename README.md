@@ -34,7 +34,7 @@ checker.check
 
 You might also like to try out the [Contribution Checker][app] app built on top of this library:
 
-![checker](https://cloud.githubusercontent.com/assets/65057/3352063/2a90d4b4-fa31-11e3-8733-c52d5df05bad.png)
+![checker](https://cloud.githubusercontent.com/assets/65057/6320756/b32c9328-bae6-11e4-9ba1-48ced9a5fb6e.png)
 
 The source for the app is in [jdennes/contribution-checker-app][contribution-checker-app].
 

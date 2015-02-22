@@ -52,6 +52,8 @@ module ContributionChecker
       @nwo, @sha = parse_commit_url @commit_url
       begin
         @commit = @client.commit @nwo, @sha
+      rescue ArgumentError
+        raise ContributionChecker::InvalidCommitUrlError
       rescue Octokit::NotFound
         raise ContributionChecker::InvalidCommitUrlError
       rescue Octokit::Unauthorized

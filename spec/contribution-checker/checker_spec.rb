@@ -82,7 +82,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("emails.json"))
         stub_get("/user/starred?per_page=100").
           to_return(json_response("starred.json"))
-      end
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+          to_return(json_response("issues_and_prs.json"))
+        end
 
       it "returns the check result" do
         result = checker.check
@@ -101,6 +103,7 @@ describe ContributionChecker::Checker do
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
         expect(result[:or_criteria][:user_is_repo_org_member]).to eq(false)
         expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(false)
+        expect(result[:or_criteria][:user_has_opened_issue_or_pr_in_repo]).to eq(true)
       end
     end
 
@@ -125,7 +128,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("emails.json"))
         stub_get("/user/starred?per_page=100").
           to_return(json_response("starred.json"))
-      end
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+          to_return(json_response("issues_and_prs.json"))
+        end
 
       it "returns the check result" do
         result = checker.check
@@ -144,6 +149,7 @@ describe ContributionChecker::Checker do
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
         expect(result[:or_criteria][:user_is_repo_org_member]).to eq(false)
         expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(false)
+        expect(result[:or_criteria][:user_has_opened_issue_or_pr_in_repo]).to eq(true)
       end
     end
 
@@ -168,7 +174,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("emails.json"))
         stub_get("/user/starred?per_page=100").
           to_return(json_response("starred.json"))
-      end
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+          to_return(json_response("issues_and_prs.json"))
+        end
 
       it "returns the check result" do
         result = checker.check
@@ -187,6 +195,7 @@ describe ContributionChecker::Checker do
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
         expect(result[:or_criteria][:user_is_repo_org_member]).to eq(false)
         expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(false)
+        expect(result[:or_criteria][:user_has_opened_issue_or_pr_in_repo]).to eq(true)
       end
     end
 
@@ -211,7 +220,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("emails.json"))
         stub_get("/user/starred?per_page=100").
           to_return(json_response("starred.json"))
-      end
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+          to_return(json_response("issues_and_prs.json"))
+        end
 
       it "returns the check result" do
         result = checker.check
@@ -230,6 +241,7 @@ describe ContributionChecker::Checker do
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
         expect(result[:or_criteria][:user_is_repo_org_member]).to eq(false)
         expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(false)
+        expect(result[:or_criteria][:user_has_opened_issue_or_pr_in_repo]).to eq(true)
       end
     end
 
@@ -255,7 +267,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("starred.json"))
         stub_get("/orgs/github/members/jdennes").
           to_return(:status => 204)
-      end
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+          to_return(json_response("issues_and_prs.json"))
+        end
 
       it "returns the check result" do
         result = checker.check
@@ -274,6 +288,7 @@ describe ContributionChecker::Checker do
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
         expect(result[:or_criteria][:user_is_repo_org_member]).to eq(true)
         expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(false)
+        expect(result[:or_criteria][:user_has_opened_issue_or_pr_in_repo]).to eq(true)
       end
     end
 
@@ -298,7 +313,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("starred.json"))
         stub_get("/repos/jdennes/contribution-checker/forks?per_page=100").
           to_return(json_response("repo_forks.json"))
-      end
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+          to_return(json_response("issues_and_prs.json"))
+        end
 
       it "returns the check result" do
         result = checker.check
@@ -317,6 +334,7 @@ describe ContributionChecker::Checker do
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
         expect(result[:or_criteria][:user_is_repo_org_member]).to eq(false)
         expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(true)
+        expect(result[:or_criteria][:user_has_opened_issue_or_pr_in_repo]).to eq(true)
       end
     end
 
@@ -341,7 +359,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("starred.json"))
         stub_get("/repos/jdennes/contribution-checker").
           to_return(json_response("potential_fork.json"))
-      end
+        stub_get("/repos/someone/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+          to_return(json_response("issues_and_prs.json"))
+        end
 
       it "returns the check result" do
         result = checker.check
@@ -360,6 +380,7 @@ describe ContributionChecker::Checker do
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
         expect(result[:or_criteria][:user_is_repo_org_member]).to eq(false)
         expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(true)
+        expect(result[:or_criteria][:user_has_opened_issue_or_pr_in_repo]).to eq(true)
       end
     end
 
@@ -388,7 +409,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("user_repos.json"))
         stub_get("/repos/jdennes/myfork").
           to_return(json_response("user_fork.json"))
-      end
+        stub_get("/repos/someone/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+          to_return(json_response("issues_and_prs.json"))
+        end
 
       it "returns the check result" do
         result = checker.check
@@ -407,6 +430,7 @@ describe ContributionChecker::Checker do
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
         expect(result[:or_criteria][:user_is_repo_org_member]).to eq(false)
         expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(true)
+        expect(result[:or_criteria][:user_has_opened_issue_or_pr_in_repo]).to eq(true)
       end
     end
 
@@ -435,7 +459,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("user_repos.json"))
         stub_get("/repos/jdennes/myfork").
           to_return(json_response("user_fork_not_matching.json"))
-      end
+        stub_get("/repos/someone/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+          to_return(json_response("issues_and_prs.json"))
+        end
 
       it "returns the check result" do
         result = checker.check
@@ -454,6 +480,7 @@ describe ContributionChecker::Checker do
         expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
         expect(result[:or_criteria][:user_is_repo_org_member]).to eq(false)
         expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(false)
+        expect(result[:or_criteria][:user_has_opened_issue_or_pr_in_repo]).to eq(true)
       end
     end
 

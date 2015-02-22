@@ -41,10 +41,11 @@ module ContributionChecker
     #     :default_branch              => "master"
     #   },
     #   :or_criteria => {
-    #     :user_has_starred_repo   => false,
-    #     :user_can_push_to_repo   => false,
-    #     :user_is_repo_org_member => true,
-    #     :user_has_fork_of_repo   => false
+    #     :user_has_starred_repo               => false,
+    #     :user_can_push_to_repo               => false,
+    #     :user_is_repo_org_member             => true,
+    #     :user_has_fork_of_repo               => false,
+    #     :user_has_opened_issue_or_pr_in_repo => false
     #   }
     # }
     def check
@@ -67,6 +68,7 @@ module ContributionChecker
       @user_can_push_to_repo = user_can_push_to_repo?
       @user_is_repo_org_member = user_is_repo_org_member?
       @user_has_fork_of_repo = user_has_fork_of_repo?
+      @user_has_opened_issue_or_pr_in_repo = user_has_opened_issue_or_pr_in_repo?
 
       {
         :contribution => and_criteria_met? && or_criteria_met?,
@@ -79,10 +81,11 @@ module ContributionChecker
           :default_branch              => @repo[:default_branch],
         },
         :or_criteria => {
-          :user_has_starred_repo   => @user_has_starred_repo,
-          :user_can_push_to_repo   => @user_can_push_to_repo,
-          :user_is_repo_org_member => @user_is_repo_org_member,
-          :user_has_fork_of_repo   => @user_has_fork_of_repo,
+          :user_has_starred_repo               => @user_has_starred_repo,
+          :user_can_push_to_repo               => @user_can_push_to_repo,
+          :user_is_repo_org_member             => @user_is_repo_org_member,
+          :user_has_fork_of_repo               => @user_has_fork_of_repo,
+          :user_has_opened_issue_or_pr_in_repo => @user_has_opened_issue_or_pr_in_repo,
         }
       }
     end
@@ -232,6 +235,14 @@ module ContributionChecker
       false
     end
 
+    # Checks whether the authenticated user has opened an issue or pull request
+    # in the repository in which the commit exists.
+    #
+    # @return [Boolean]
+    def user_has_opened_issue_or_pr_in_repo?
+      false
+    end
+
     # Checks whether the "and" criteria for counting a commit as a contribution
     # are correctly met.
     #
@@ -251,7 +262,8 @@ module ContributionChecker
       @user_has_starred_repo ||
       @user_can_push_to_repo ||
       @user_is_repo_org_member ||
-      @user_has_fork_of_repo
+      @user_has_fork_of_repo ||
+      @user_has_opened_issue_or_pr_in_repo
     end
   end
 end

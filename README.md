@@ -35,10 +35,13 @@ You might also like to try out the [Contribution Checker][app] app built on top 
 
 ![checker](https://cloud.githubusercontent.com/assets/65057/3352063/2a90d4b4-fa31-11e3-8733-c52d5df05bad.png)
 
+The source for the app is in [jdennes/contribution-checker-app][contribution-checker-app].
+
 Created by [@izuzak][izuzak] and [@jdennes][jdennes] at the [Hamburg Hackathon][hamburg-hackathon], June 2014.
 
 [contributions]: https://help.github.com/articles/why-are-my-contributions-not-showing-up-on-my-profile
 [app]: http://contribution-checker.herokuapp.com/
+[contribution-checker-app]: https://github.com/jdennes/contribution-checker-app
 [izuzak]: https://github.com/izuzak
 [jdennes]: https://github.com/jdennes
 [hamburg-hackathon]: http://hamburg-hackathon.de/hackathon/

@@ -242,7 +242,9 @@ module ContributionChecker
     #
     # @return [Boolean]
     def user_has_opened_issue_or_pr_in_repo?
-      false
+      issues_and_prs = @client.list_issues @nwo,
+        :creator => @user[:login], :state => "all"
+      issues_and_prs.any?
     end
 
     # Checks whether the "and" criteria for counting a commit as a contribution

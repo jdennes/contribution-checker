@@ -171,9 +171,7 @@ module ContributionChecker
     #
     # @return [Boolean]
     def user_has_starred_repo?
-      @client.auto_paginate = true
-      starred = @client.starred @user.login
-      starred.map { |s| s.full_name }.include? @nwo
+      @client.starred? @nwo
     end
 
     # Checks whether the authenticated user is a member of the organization
@@ -232,8 +230,12 @@ module ContributionChecker
       @user_forks = @user_repos.select { |r| r[:fork] }
       @user_forks.each do |f|
         r = @client.repository f[:full_name]
-        return true if r[:parent][:full_name] == @repo[:full_name]
+        if r[:parent][:full_name] == @repo[:full_name]
+          @client.auto_paginate = false
+          return true
+        end
       end
+      @client.auto_paginate = false
       false
     end
 

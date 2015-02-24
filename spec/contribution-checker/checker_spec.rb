@@ -80,9 +80,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred?per_page=100").
-          to_return(json_response("starred.json"))
-        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+        stub_get("/user/starred/jdennes/contribution-checker").
+          to_return(:status => 404)
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&state=all").
           to_return(json_response("issues_and_prs.json"))
         end
 
@@ -126,9 +126,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("gh-pages_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred?per_page=100").
-          to_return(json_response("starred.json"))
-        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+        stub_get("/user/starred/jdennes/contribution-checker").
+          to_return(:status => 404)
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&state=all").
           to_return(json_response("issues_and_prs.json"))
         end
 
@@ -172,9 +172,9 @@ describe ContributionChecker::Checker do
           to_return(json_response("gh-pages_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred?per_page=100").
-          to_return(json_response("starred.json"))
-        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+        stub_get("/user/starred/jdennes/contribution-checker").
+          to_return(:status => 404)
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&state=all").
           to_return(json_response("issues_and_prs.json"))
         end
 
@@ -218,9 +218,9 @@ describe ContributionChecker::Checker do
           to_return(:status => 404)
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred?per_page=100").
-          to_return(json_response("starred.json"))
-        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+        stub_get("/user/starred/jdennes/contribution-checker").
+          to_return(:status => 404)
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&state=all").
           to_return(json_response("issues_and_prs.json"))
         end
 
@@ -263,11 +263,11 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred?per_page=100").
-          to_return(json_response("starred.json"))
+        stub_get("/user/starred/jdennes/contribution-checker").
+          to_return(:status => 404)
         stub_get("/orgs/github/members/jdennes").
           to_return(:status => 204)
-        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&state=all").
           to_return(json_response("issues_and_prs.json"))
         end
 
@@ -309,11 +309,11 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred?per_page=100").
-          to_return(json_response("starred.json"))
+        stub_get("/user/starred/jdennes/contribution-checker").
+          to_return(:status => 404)
         stub_get("/repos/jdennes/contribution-checker/forks?per_page=100").
           to_return(json_response("repo_forks.json"))
-        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&state=all").
           to_return(json_response("issues_and_prs.json"))
         end
 
@@ -355,11 +355,11 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred?per_page=100").
-          to_return(json_response("starred.json"))
+        stub_get("/user/starred/someone/contribution-checker").
+          to_return(:status => 404)
         stub_get("/repos/jdennes/contribution-checker").
           to_return(json_response("potential_fork.json"))
-        stub_get("/repos/someone/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+        stub_get("/repos/someone/contribution-checker/issues?creator=jdennes&state=all").
           to_return(json_response("issues_and_prs.json"))
         end
 
@@ -401,15 +401,15 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred?per_page=100").
-          to_return(json_response("starred.json"))
+        stub_get("/user/starred/someone/contribution-checker").
+          to_return(:status => 404)
         stub_get("/repos/jdennes/contribution-checker").
           to_return(:status => 404)
         stub_get("/user/repos?per_page=100").
           to_return(json_response("user_repos.json"))
         stub_get("/repos/jdennes/myfork").
           to_return(json_response("user_fork.json"))
-        stub_get("/repos/someone/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+        stub_get("/repos/someone/contribution-checker/issues?creator=jdennes&state=all").
           to_return(json_response("issues_and_prs.json"))
         end
 
@@ -451,15 +451,15 @@ describe ContributionChecker::Checker do
           to_return(json_response("default_compare.json"))
         stub_get("/user/emails").
           to_return(json_response("emails.json"))
-        stub_get("/user/starred?per_page=100").
-          to_return(json_response("starred.json"))
+        stub_get("/user/starred/someone/contribution-checker").
+          to_return(:status => 404)
         stub_get("/repos/jdennes/contribution-checker").
           to_return(:status => 404)
         stub_get("/user/repos?per_page=100").
           to_return(json_response("user_repos.json"))
         stub_get("/repos/jdennes/myfork").
           to_return(json_response("user_fork_not_matching.json"))
-        stub_get("/repos/someone/contribution-checker/issues?creator=jdennes&per_page=100&state=all").
+        stub_get("/repos/someone/contribution-checker/issues?creator=jdennes&state=all").
           to_return(json_response("issues_and_prs.json"))
         end
 

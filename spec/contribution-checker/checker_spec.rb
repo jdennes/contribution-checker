@@ -63,6 +63,51 @@ describe ContributionChecker::Checker do
       end
     end
 
+    context "when a commit is authored using a generic email address" do
+      let(:checker) { checker = ContributionChecker::Checker.new \
+        :access_token => "token",
+        :commit_url   => "https://github.com/jdennes/contribution-checker/commit/731e83d4abf1bd67ac6ab68d18387693482e47cf"
+      }
+
+      before do
+        stub_get("/repos/jdennes/contribution-checker/commits/731e83d4abf1bd67ac6ab68d18387693482e47cf").
+          to_return(json_response("commit_with_generic_email.json"))
+        stub_get("/repos/jdennes/contribution-checker").
+          to_return(json_response("repo.json"))
+        stub_get("/user").
+          to_return(json_response("user.json"))
+        stub_get("/repos/jdennes/contribution-checker/compare/master...731e83d4abf1bd67ac6ab68d18387693482e47cf").
+          to_return(json_response("default_compare.json"))
+        stub_get("/user/emails").
+          to_return(json_response("emails.json"))
+        stub_get("/user/starred/jdennes/contribution-checker").
+          to_return(:status => 404)
+        stub_get("/repos/jdennes/contribution-checker/issues?creator=jdennes&state=all").
+          to_return(json_response("issues_and_prs.json"))
+        end
+
+      it "returns the check result" do
+        result = checker.check
+        expect(result).to be_a(Hash)
+
+        expect(result[:contribution]).to eq(false)
+
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(false)
+        expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
+        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
+        expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
+        expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
+        expect(result[:and_criteria][:commit_email]).to eq("another@example.com")
+        expect(result[:and_criteria][:default_branch]).to eq("master")
+
+        expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
+        expect(result[:or_criteria][:user_can_push_to_repo]).to eq(true)
+        expect(result[:or_criteria][:user_is_repo_org_member]).to eq(false)
+        expect(result[:or_criteria][:user_has_fork_of_repo]).to eq(false)
+        expect(result[:or_criteria][:user_has_opened_issue_or_pr_in_repo]).to eq(true)
+      end
+    end
+
     context "when a commit is in the default branch and is successfully checked" do
       let(:checker) { checker = ContributionChecker::Checker.new \
         :access_token => "token",
@@ -92,11 +137,12 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
-        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
+        expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
         expect(result[:and_criteria][:default_branch]).to eq("master")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
@@ -138,11 +184,12 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
-        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
+        expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
         expect(result[:and_criteria][:default_branch]).to eq("master")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
@@ -184,11 +231,12 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
-        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
+        expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
         expect(result[:and_criteria][:default_branch]).to eq("master")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
@@ -230,11 +278,12 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(false)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(false)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
-        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
+        expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
         expect(result[:and_criteria][:default_branch]).to eq("master")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
@@ -277,11 +326,12 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
-        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
+        expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
         expect(result[:and_criteria][:default_branch]).to eq("master")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
@@ -323,11 +373,12 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
-        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
+        expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
         expect(result[:and_criteria][:default_branch]).to eq("master")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
@@ -369,11 +420,12 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
-        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
+        expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
         expect(result[:and_criteria][:default_branch]).to eq("master")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
@@ -419,11 +471,12 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
-        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
+        expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
         expect(result[:and_criteria][:default_branch]).to eq("master")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)
@@ -469,11 +522,12 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
-        expect(result[:and_criteria][:commit_email]).to eq("example@example.com")
+        expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
         expect(result[:and_criteria][:default_branch]).to eq("master")
 
         expect(result[:or_criteria][:user_has_starred_repo]).to eq(false)

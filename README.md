@@ -15,11 +15,12 @@ checker.check
 => {
   :contribution => true,
   :and_criteria => {
+    :commit_email_is_not_generic => true,
     :commit_in_valid_branch      => true,
     :commit_in_last_year         => true,
     :repo_not_a_fork             => true,
     :commit_email_linked_to_user => true,
-    :commit_email                => "example@example.com",
+    :commit_email                => "me@foo.com",
     :default_branch              => "master"
   },
   :or_criteria => {

@@ -9,12 +9,12 @@
     "commit": {
       "author": {
         "name": "James Dennes",
-        "email": "example@example.com",
+        "email": "me@foo.com",
         "date": "2014-06-08T22:47:15Z"
       },
       "committer": {
         "name": "James Dennes",
-        "email": "example@example.com",
+        "email": "me@foo.com",
         "date": "2014-06-08T22:47:15Z"
       },
       "message": "Add ContributionChecker::InvalidAccessTokenError",
@@ -79,12 +79,12 @@
     "commit": {
       "author": {
         "name": "James Dennes",
-        "email": "example@example.com",
+        "email": "me@foo.com",
         "date": "2014-06-08T10:25:34Z"
       },
       "committer": {
         "name": "James Dennes",
-        "email": "example@example.com",
+        "email": "me@foo.com",
         "date": "2014-06-08T10:25:34Z"
       },
       "message": "Version 0.0.2",

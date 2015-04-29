@@ -269,6 +269,7 @@ module ContributionChecker
     #
     # @return [Boolean]
     def and_criteria_met?
+      @commit_email_is_not_generic &&
       @commit_in_valid_branch &&
       @commit_in_last_year &&
       @repo_not_a_fork &&

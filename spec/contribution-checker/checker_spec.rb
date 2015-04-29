@@ -137,6 +137,7 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
@@ -183,6 +184,7 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
@@ -229,6 +231,7 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
@@ -275,6 +278,7 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(false)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(false)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
@@ -322,6 +326,7 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
@@ -368,6 +373,7 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
@@ -414,6 +420,7 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
@@ -464,6 +471,7 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
@@ -514,6 +522,7 @@ describe ContributionChecker::Checker do
 
         expect(result[:contribution]).to eq(true)
 
+        expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
         expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)

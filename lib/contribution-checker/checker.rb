@@ -33,11 +33,12 @@ module ContributionChecker
     # {
     #   :contribution => true,
     #   :and_criteria => {
+    #     :commit_email_is_not_generic => true,
     #     :commit_in_valid_branch      => true,
     #     :commit_in_last_year         => true,
     #     :repo_not_a_fork             => true,
     #     :commit_email_linked_to_user => true,
-    #     :commit_email                => "example@example.com",
+    #     :commit_email                => "me@foo.com",
     #     :default_branch              => "master"
     #   },
     #   :or_criteria => {
@@ -62,6 +63,7 @@ module ContributionChecker
       @repo = @client.repository @nwo
       @user = @client.user
 
+      @commit_email_is_not_generic = commit_email_is_not_generic?
       @commit_in_valid_branch = commit_in_valid_branch?
       @commit_in_last_year = commit_in_last_year?
       @repo_not_a_fork = !repository_is_fork?
@@ -75,6 +77,7 @@ module ContributionChecker
       {
         :contribution => and_criteria_met? && or_criteria_met?,
         :and_criteria => {
+          :commit_email_is_not_generic => @commit_email_is_not_generic,
           :commit_in_valid_branch      => @commit_in_valid_branch,
           :commit_in_last_year         => @commit_in_last_year,
           :repo_not_a_fork             => @repo_not_a_fork,
@@ -106,6 +109,18 @@ module ContributionChecker
       rescue
         raise ContributionChecker::InvalidCommitUrlError
       end
+    end
+
+    # Checks that the commit was not authored using a non-generic email.
+    # For example, this will return false when the commit was authored using
+    # emails like me@example.com, me@localhost, me@fake.org, etc.
+    #
+    # @return [Boolean]
+    def commit_email_is_not_generic?
+      @commit[:commit][:author][:email] !~ Regexp.union(
+        /[@.](example|test|fake|none)\.?(com|net|org)?\z/i,
+        /[@.]local\.?(host)?\z/i,
+      )
     end
 
     # Checks whether the commit is in a valid branch. A valid branch is defined

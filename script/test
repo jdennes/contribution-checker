@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# script/test: Run tests.
+# script/test: Run the tests for the project.
 
 set -e
 

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# script/test: Run tests.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+script/bootstrap
+
+echo "==> Running tests..."
+
+if [ -n "$1" ]; then
+  # pass arguments to test call. This is useful for calling a single test.
+  bundle exec rake test "$1"
+else
+  bundle exec rake test
+fi

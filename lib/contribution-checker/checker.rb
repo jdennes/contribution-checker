@@ -35,7 +35,6 @@ module ContributionChecker
     #   :and_criteria => {
     #     :commit_email_is_not_generic => true,
     #     :commit_in_valid_branch      => true,
-    #     :commit_in_last_year         => true,
     #     :repo_not_a_fork             => true,
     #     :commit_email_linked_to_user => true,
     #     :commit_email                => "me@foo.com",
@@ -65,7 +64,6 @@ module ContributionChecker
 
       @commit_email_is_not_generic = commit_email_is_not_generic?
       @commit_in_valid_branch = commit_in_valid_branch?
-      @commit_in_last_year = commit_in_last_year?
       @repo_not_a_fork = !repository_is_fork?
       @commit_email_linked_to_user = commit_email_linked_to_user?
       @user_has_starred_repo = user_has_starred_repo?
@@ -79,7 +77,6 @@ module ContributionChecker
         :and_criteria => {
           :commit_email_is_not_generic => @commit_email_is_not_generic,
           :commit_in_valid_branch      => @commit_in_valid_branch,
-          :commit_in_last_year         => @commit_in_last_year,
           :repo_not_a_fork             => @repo_not_a_fork,
           :commit_email_linked_to_user => @commit_email_linked_to_user,
           :commit_email                => @commit[:commit][:author][:email],
@@ -154,15 +151,6 @@ module ContributionChecker
       end
 
       true
-    end
-
-    # Checks whether the commit was authored in the last year.
-    #
-    # @return [Boolean]
-    def commit_in_last_year?
-      a_year_ago = Time.now - (365.25 * 86400)
-      commit_time = @commit[:commit][:author][:date]
-      (commit_time <=> a_year_ago) == 1
     end
 
     # Checks whether the repository is a fork.
@@ -271,7 +259,6 @@ module ContributionChecker
     def and_criteria_met?
       @commit_email_is_not_generic &&
       @commit_in_valid_branch &&
-      @commit_in_last_year &&
       @repo_not_a_fork &&
       @commit_email_linked_to_user
     end

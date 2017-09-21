@@ -94,7 +94,6 @@ describe ContributionChecker::Checker do
 
         expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(false)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
-        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
         expect(result[:and_criteria][:commit_email]).to eq("another@example.com")
@@ -139,7 +138,6 @@ describe ContributionChecker::Checker do
 
         expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
-        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
         expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
@@ -186,7 +184,6 @@ describe ContributionChecker::Checker do
 
         expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
-        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
         expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
@@ -233,7 +230,6 @@ describe ContributionChecker::Checker do
 
         expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
-        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
         expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
@@ -280,7 +276,6 @@ describe ContributionChecker::Checker do
 
         expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(false)
-        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
         expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
@@ -328,7 +323,6 @@ describe ContributionChecker::Checker do
 
         expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
-        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
         expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
@@ -375,7 +369,6 @@ describe ContributionChecker::Checker do
 
         expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
-        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
         expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
@@ -422,7 +415,6 @@ describe ContributionChecker::Checker do
 
         expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
-        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
         expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
@@ -473,7 +465,6 @@ describe ContributionChecker::Checker do
 
         expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
-        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
         expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
@@ -524,7 +515,6 @@ describe ContributionChecker::Checker do
 
         expect(result[:and_criteria][:commit_email_is_not_generic]).to eq(true)
         expect(result[:and_criteria][:commit_in_valid_branch]).to eq(true)
-        expect(result[:and_criteria][:commit_in_last_year]).to eq(true)
         expect(result[:and_criteria][:repo_not_a_fork]).to eq(true)
         expect(result[:and_criteria][:commit_email_linked_to_user]).to eq(true)
         expect(result[:and_criteria][:commit_email]).to eq("me@foo.com")
